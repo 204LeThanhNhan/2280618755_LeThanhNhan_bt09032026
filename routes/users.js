@@ -20,7 +20,7 @@ router.get("/", checkLogin,
     res.send(users);
   });
 
-router.get("/:id", checkLogin, async function (req, res, next) {
+router.get("/:id", checkLogin, checkRole("ADMIN"), async function (req, res, next) {
   try {
     let result = await userModel
       .find({ _id: req.params.id, isDeleted: false })
@@ -53,7 +53,7 @@ router.post("/",checkLogin,checkRole("ADMIN"), postUserValidator, validateResult
     }
   });
 
-router.put("/:id", async function (req, res, next) {
+router.put("/:id", checkLogin, checkRole("ADMIN"), async function (req, res, next) {
   try {
     let id = req.params.id;
     let updatedItem = await userModel.findById(id);
@@ -72,7 +72,7 @@ router.put("/:id", async function (req, res, next) {
   }
 });
 
-router.delete("/:id", async function (req, res, next) {
+router.delete("/:id", checkLogin, checkRole("ADMIN"), async function (req, res, next) {
   try {
     let id = req.params.id;
     let updatedItem = await userModel.findByIdAndUpdate(
