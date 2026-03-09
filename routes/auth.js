@@ -70,9 +70,12 @@ router.post('/change-password', checkLogin, async function (req, res, next) {
             return res.status(400).send({ message: "Email không đúng" });
         }
         
+        // So sánh mật khẩu với mật khẩu trong database
         if (!bcrypt.compareSync(oldpassword, getUser.password)) {
             return res.status(400).send({ message: "Mật khẩu cũ không đúng" });
         }
+
+        // Update password
         getUser.password = newpassword;
         await getUser.save();
         
