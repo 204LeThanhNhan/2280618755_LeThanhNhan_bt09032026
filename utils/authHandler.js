@@ -21,6 +21,7 @@ module.exports = {
             res.status(403).send("ban chua dang nhap")
         }
     },
+    
     checkRole: function (...requiredRole) {
         return async function (req, res, next) {
             let userId = req.userId;
